@@ -150,12 +150,20 @@
 					<subjects>
 						<rewardCreated>src/main/avro/RewardCreated.avsc</rewardCreated>
 						<rewards-value>src/main/avro/RewardMessageTypes.avsc</rewards-value>
-						<!-- <topic4-value>src/main/avro/RewardMessageTypes.avsc</topic4-value> -->
+						<rewards.consumer.retry-0-value>src/main/avro/RewardMessageTypes.avsc</rewards.consumer.retry-0-value>
+						<rewards.consumer.retry-1-value>src/main/avro/RewardMessageTypes.avsc</rewards.consumer.retry-1-value>
+						<rewards.consumer.retry-2-value>src/main/avro/RewardMessageTypes.avsc</rewards.consumer.retry-2-value>
+						<rewards.consumer.retry-3-value>src/main/avro/RewardMessageTypes.avsc</rewards.consumer.retry-3-value>
+						<rewards.consumer.dlt-value>src/main/avro/RewardMessageTypes.avsc</rewards.consumer.dlt-value>
 					</subjects>
 					<schemaTypes>
 						<rewardCreated>AVRO</rewardCreated>
 						<rewards-value>AVRO</rewards-value>
-						<!-- <topic4-value>AVRO</topic4-value> -->
+						<rewards.consumer.retry-0-value>AVRO</rewards.consumer.retry-0-value>
+						<rewards.consumer.retry-1-value>AVRO</rewards.consumer.retry-1-value>
+						<rewards.consumer.retry-2-value>AVRO</rewards.consumer.retry-2-value>
+						<rewards.consumer.retry-3-value>AVRO</rewards.consumer.retry-3-value>
+						<rewards.consumer.dlt-value>AVRO</rewards.consumer.dlt-value>
 					</schemaTypes>
 					<references>
 						<rewards-value>							
@@ -164,12 +172,36 @@
 								<subject>rewardCreated</subject>
 							</reference>													
 						</rewards-value>	
-						<!-- <topic4-value>							
+						<rewards.consumer.retry-0-value>
 							<reference>
 								<name>app.kafka.errordemo.schema.RewardCreated</name>
 								<subject>rewardCreated</subject>
-							</reference>													
-						</topic4-value>					 -->
+							</reference>
+						</rewards.consumer.retry-0-value>						
+						<rewards.consumer.retry-1-value>
+							<reference>
+								<name>app.kafka.errordemo.schema.RewardCreated</name>
+								<subject>rewardCreated</subject>
+							</reference>
+						</rewards.consumer.retry-1-value>
+						<rewards.consumer.retry-2-value>
+							<reference>
+								<name>app.kafka.errordemo.schema.RewardCreated</name>
+								<subject>rewardCreated</subject>
+							</reference>
+						</rewards.consumer.retry-2-value>
+						<rewards.consumer.retry-3-value>
+							<reference>
+								<name>app.kafka.errordemo.schema.RewardCreated</name>
+								<subject>rewardCreated</subject>
+							</reference>
+						</rewards.consumer.retry-3-value>
+						<rewards.consumer.dlt-value>
+							<reference>
+								<name>app.kafka.errordemo.schema.RewardCreated</name>
+								<subject>rewardCreated</subject>
+							</reference>
+						</rewards.consumer.dlt-value>
 					</references>
 				</configuration>
 				<goals>

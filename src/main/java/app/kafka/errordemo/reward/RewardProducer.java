@@ -18,35 +18,36 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class RewardProducer {
-    @Autowired
-    private KafkaTemplate<Integer, RewardCreated> template;
+	@Autowired
+	private KafkaTemplate<Integer, RewardCreated> template;
 
-    @Autowired
-    private ApplicationProperties properties;
+	@Autowired
+	private ApplicationProperties properties;
 
-    public void sendRewardCreatedMessage(Reward reward) {
-        // Build message.
-        RewardCreated rewardCreated = RewardCreated.newBuilder()
-                .setCustomerId(reward.customerId())
-                .setProgramme(reward.programme())
-                .setMembershipId(reward.membershipId())
-                .build();
+	public void sendRewardCreatedMessage(Reward reward) {
+		// Build message.
+		RewardCreated rewardCreated = RewardCreated.newBuilder()
+				.setCustomerId(reward.customerId())
+				.setProgramme(reward.programme())
+				.setMembershipId(reward.membershipId())
+				.build();
 
-        // Create record.
-        ProducerRecord<Integer, RewardCreated> record = new ProducerRecord<Integer, RewardCreated>(
-                properties.rewardsTopic, reward.customerId(), rewardCreated);
+		// Create record.
+		ProducerRecord<Integer, RewardCreated> record = new ProducerRecord<Integer, RewardCreated>(
+				properties.rewardsTopic, reward.customerId(), rewardCreated);
 
-        // Add headers.
-        record.headers().add(new RecordHeader(RecordHeaderNames.MESSAGE_ID,
-                UUID.randomUUID().toString().getBytes()));
-        record.headers()
-                .add(new RecordHeader(RecordHeaderNames.MESSAGE_TYPE,
-                        MessageTypes.REWARD_CREATED.getBytes()));
+		// Add headers.
+		record.headers().add(new RecordHeader(RecordHeaderNames.MESSAGE_ID,
+				UUID.randomUUID().toString().getBytes()));
+		record.headers()
+				.add(new RecordHeader(RecordHeaderNames.MESSAGE_TYPE,
+						MessageTypes.REWARD_CREATED.getBytes()));
 
-        // Send.
-        this.template.send(record);
+		// Send.
+		this.template.send(record);
 
-        log.info(String.format("Produced -> key: %s, value: %s", record.key(), record.value()));
-        RecordHeaders.log(record.headers());
-    }
+		log.info(String.format("Produced -> key: %s, value: %s", record.key(),
+				record.value()));
+		RecordHeaders.log(record.headers());
+	}
 }

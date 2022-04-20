@@ -8,6 +8,7 @@ import org.apache.kafka.common.header.Headers;
 import org.springframework.kafka.annotation.DltHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
+import org.springframework.kafka.retrytopic.TopicSuffixingStrategy;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.retry.annotation.Backoff;
@@ -41,19 +42,16 @@ public class RewardConsumer {
         }
     }
 
-    @RetryableTopic(attempts = "5", backoff = @Backoff(delay = 2_000, maxDelay = 10_000, multiplier = 2))
+    @RetryableTopic(attempts = "${app.rewards.kafka.consumer.retry-attempts}", retryTopicSuffix = "${app.rewards.kafka.consumer.retryTopicSuffix}", topicSuffixingStrategy = TopicSuffixingStrategy.SUFFIX_WITH_INDEX_VALUE, dltTopicSuffix = "${app.rewards.kafka.consumer.dltTopicSuffix}", backoff = @Backoff(delayExpression = "${app.rewards.kafka.consumer.backoff-delay-milliseconds}", maxDelayExpression = "${app.rewards.kafka.consumer.backoff-maxdelay-milliseconds}", multiplierExpression = "${app.rewards.kafka.consumer.backoff-multiplier}"))
     @KafkaListener(id = "${app.rewards.kafka.consumer.group-id}", topics = "${app.topic.rewards}")
     public void process(ConsumerRecord<Integer, Object> record,
             @Header(KafkaHeaders.RECEIVED_TOPIC) String topic, @Header(KafkaHeaders.OFFSET) long offset) {
         log.info(String.format("process: Received <- key: %s. value: %s in topic: %s, offset: %s",
                 record.key(), record.value(), topic, offset));
-        // process(record.headers(), record.value());
 
         // DEBUG stuffs:
-        log.info("name: " + record.value().getClass().getName());
         var sr = (SpecificRecord) record.value();
         var programme = sr.get(2).toString();
-        log.info("programme: " + programme);
 
         if (programme.contains("fail")) {
             throw new RuntimeException("failed");
@@ -65,12 +63,5 @@ public class RewardConsumer {
             @Header(KafkaHeaders.RECEIVED_TOPIC) String topic, @Header(KafkaHeaders.OFFSET) long offset) {
         log.info(String.format("processDlt: Received <- key: %s. value: %s in topic: %s, offset: %s",
                 record.key(), record.value(), topic, offset));
-        // process(record.headers(), record.value());
-
-        // DEBUG stuffs:
-        log.info("name: " + record.value().getClass().getName());
-        var sr = (SpecificRecord) record.value();
-        var programme = sr.get(2).toString();
-        log.info("programme: " + programme);
     }
 }

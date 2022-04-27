@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import org.apache.avro.specific.SpecificRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.header.Headers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.DltHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.annotation.RetryableTopic;
@@ -13,6 +14,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import app.kafka.errordemo.common.MessageTypes;
 import app.kafka.errordemo.common.RecordHeaderNames;
@@ -22,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class RewardConsumer {
+    @Autowired
+    private RestTemplate restTemplate;
+
     public void process(Headers headers, Object message) {
         // Log headers.
         RecordHeaders.log(headers);
@@ -51,11 +56,15 @@ public class RewardConsumer {
 
         // DEBUG stuffs:
         var sr = (SpecificRecord) record.value();
+        var customerId = Integer.parseInt(sr.get(0).toString());
+        var membershipId = sr.get(1).toString();
         var programme = sr.get(2).toString();
 
-        if (programme.contains("fail")) {
-            throw new RuntimeException("failed");
-        }
+        // if (programme.contains("fail")) {
+        // throw new RuntimeException("failed");
+        // }
+
+        restTemplate.postForObject("http://localhost:8092/api/external", new Customer(customerId), Customer.class);
     }
 
     @DltHandler

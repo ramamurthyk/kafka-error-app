@@ -1,6 +1,0 @@
-app/kafka/errordemo/schema/RewardCreated.class
-app/kafka/errordemo/schema/RewardCreated$Builder.class
-app/kafka/commonlib/MessageTypes.class
-app/kafka/commonlib/App.class
-app/kafka/commonlib/RecordHeadersLogger.class
-app/kafka/commonlib/RecordHeaderNames.class

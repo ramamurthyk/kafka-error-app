@@ -4,18 +4,18 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.6</version>
+		<version>2.6.7</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>app.kafka</groupId>
-	<artifactId>errordemo</artifactId>
+	<artifactId>main-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>errordemo</name>
-	<description>Demo project for Spring Boot</description>
+	<name>main-app</name>
+	<description>Spring Boot main application having Kafka producer and consumer implementation.</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
-
+	<!-- Maven Repositories. -->
 	<repositories>
 		<repository>
 			<id>confluent</id>
@@ -29,23 +29,13 @@
 			<url>https://packages.confluent.io/maven/</url>
 		</pluginRepository>
 	</pluginRepositories>
-
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
+
+
+		<!-- Spring Boot -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>kafka-streams</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
 		</dependency>
 
 		<dependency>
@@ -53,16 +43,6 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -74,12 +54,27 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Local dependencies. -->
+		<dependency>
+			<groupId>app.kafka</groupId>
+			<artifactId>common-lib</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<optional>false</optional>
+			<systemPath>${basedir}/../common-lib/target/common-lib-0.0.1-SNAPSHOT.jar</systemPath>
+		</dependency>
+
+		<!-- Kafka -->
+		<dependency>
+			<groupId>org.springframework.kafka</groupId>
+			<artifactId>spring-kafka</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.kafka</groupId>
 			<artifactId>spring-kafka-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 		<!-- Schema registry -->
 		<dependency>
 			<groupId>io.confluent</groupId>
@@ -112,31 +107,6 @@
 					</excludes>
 				</configuration>
 			</plugin>
-			<!-- Avro code gen -->
-			<!-- <plugin>
-				<groupId>org.apache.avro</groupId>
-				<artifactId>avro-maven-plugin</artifactId>
-				<version>1.11.0</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>schema</goal>
-						</goals>
-						<configuration>
-							<sourceDirectory>src/main/avro</sourceDirectory>
-							<excludes>
-								<exclude>src/main/avro/RewardMessageTypes.avsc</exclude>
-							</excludes>
-							<imports>
-								<import>src/main/avro/RewardCreated.avsc</import>
-							</imports>
-							<outputDirectory>src/main/java</outputDirectory>
-							<stringType>String</stringType>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin> -->
 			<!-- Schema registration -->
 			<plugin>
 				<groupId>io.confluent</groupId>

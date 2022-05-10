@@ -60,9 +60,9 @@
 			<groupId>app.kafka</groupId>
 			<artifactId>common-lib</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>system</scope>
-			<optional>false</optional>
-			<systemPath>${basedir}/../common-lib/target/common-lib-0.0.1-SNAPSHOT.jar</systemPath>
+			<scope>compile</scope>
+			<!-- <optional>false</optional>
+			<systemPath>${basedir}/../common-lib/target/common-lib-0.0.1-SNAPSHOT.jar</systemPath> -->
 		</dependency>
 
 		<!-- Kafka -->

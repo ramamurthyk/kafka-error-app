@@ -16,6 +16,12 @@ public class ApplicationProperties {
     @Value("${app.rewards.kafka.consumer.group-id}")
     public String rewardsConsumerGroupId;
 
+    @Value("${app.rewards.kafka.consumer.partition}")
+    public int partition;
+
+    @Value("${app.rewards.kafka.consumer.offset}")
+    public long offset;
+
     @Value("${app.rewards.kafka.consumer.seekToCurrent}")
     public Boolean seekToCurrent;
 }

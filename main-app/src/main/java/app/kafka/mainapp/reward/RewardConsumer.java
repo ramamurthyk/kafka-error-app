@@ -54,15 +54,10 @@ public class RewardConsumer {
         log.info(String.format("process: Received <- key: %s. value: %s in topic: %s, offset: %s",
                 record.key(), record.value(), topic, offset));
 
-        // DEBUG stuffs:
         var sr = (SpecificRecord) record.value();
         var customerId = Integer.parseInt(sr.get(0).toString());
         var membershipId = sr.get(1).toString();
         var programme = sr.get(2).toString();
-
-        // if (programme.contains("fail")) {
-        // throw new RuntimeException("failed");
-        // }
 
         restTemplate.postForObject("http://localhost:8092/api/external", new Customer(customerId), Customer.class);
     }

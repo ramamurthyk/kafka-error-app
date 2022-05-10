@@ -46,6 +46,7 @@ public class Merger extends AbstractConsumerSeekAware {
         log.info("Assignments:" + assignments);
         super.onPartitionsAssigned(assignments, callback);
 
-        callback.seekRelative(applicationProperties.rewardsConsumerDLT, 0, 0, applicationProperties.seekToCurrent);
+        callback.seekRelative(applicationProperties.rewardsConsumerDLT, applicationProperties.partition,
+                applicationProperties.offset, applicationProperties.seekToCurrent);
     }
 }
